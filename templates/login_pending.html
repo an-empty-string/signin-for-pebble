@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <script src="/static/jquery.min.js"></script>
+        <script>
+            function check() {
+                $.getJSON('/login_complete/{{ uid }}/', function(data) {
+                    if(data.approved) {
+                        window.location.href = "/dashboard/";
+                    }
+                });
+                $("#dots").html($("#dots").html() + ".");
+                window.setTimeout(check, 1000);
+            }
+        </script>
+    </head>
+    <body onload="check();">
+        Login pending for {{ username }}<span id="dots">.</span>
+    </body>
+</html>

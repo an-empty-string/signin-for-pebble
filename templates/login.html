@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block body %}
+<form>
+    <div class="row">
+        <div class="input-field col s12">
+            <input type="text" name="username" id="username" />
+            <label for="username">Username</label>
+        </div>
+    </div>
+    <div class="row">
+        <button class="btn" type="submit">Log in</button>
+    </div>
+</form>
+Not registered yet? <a href="/register/">Register first</a>, and then come back.
+{% endblock %}

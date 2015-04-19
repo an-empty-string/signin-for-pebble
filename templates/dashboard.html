@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block body %}
+<h3>Previous authentication requests</h3>
+<table class="striped bordered">
+    <thead>
+        <tr><th>Time</th><th>Service</th><th>Approved?</th></tr>
+    </thead>
+    <tbody>
+        {% for i in stuff %}
+        <tr><td>{{ i.completed_at }}</td><td>{{ i.service }}</td><td>{{ "yes, signin success" if i.approved else "no" }}</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

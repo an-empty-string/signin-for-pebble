@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <title>Signin for Pebble</title>
+        <link href="/static/materialize/css/materialize.min.css" rel="stylesheet" type="text/css" />
+        <script src="/static/jquery.min.js"></script>
+        <script src="/static/materialize/js/materialize.min.js"></script>
+        {% block morehead %}{% endblock %}
+    </head>
+    <body>
+        <nav class="blue">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <a href="#" class="brand-logo">Signin for Pebble</a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        {% if session.username %}
+                        <li><a href="/logout/">Logout</a></li>
+                        <li><a href="/dashboard/">Howdy, {{ session.username }}</a></li>
+                        {% else %}
+                        <li><a href="/login/">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            {% block body %}{% endblock %}
+        </div>
+    </body>
+</html>
