@@ -1,14 +1,20 @@
 from flask import Flask, jsonify, request, render_template, session, redirect
 from db import *
+import json
 import random
 import string
 import datetime
 
+config = json.load(open("config.json"))
 app = Flask(__name__)
-app.secret_key = "420 make memes daily"
+app.secret_key = config["secret-key"]
 
 @app.route('/api/new_key.json')
 def new_key():
+    """
+    Generate and return a new device/enrollment keypair. This is called by the Pebble
+    app at first run.
+    """
     auth_key = "".join([random.choice(string.ascii_lowercase + string.ascii_uppercase + "0123456789") for i in range(32)])
     enrollment_key = auth_key[:6]
     Device.create(auth_key=auth_key, enroll_key=enrollment_key)
@@ -32,6 +38,7 @@ def accept_auth_request(auth_key, id):
 def deny_auth_request(auth_key, id):
     if list(filter(lambda k: k.id == id and not k.approved and not k.complete, Device.get(Device.auth_key == auth_key).owner.auth_requests)):
         AuthRequest.update(approved=False, complete=True, completed_at=datetime.datetime.now()).where(AuthRequest.id == id).execute()
+    return jsonify(ok=True)
 
 @app.route('/api/<auth_key>/ok.json')
 def ok(auth_key):
