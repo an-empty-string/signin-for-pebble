@@ -1,0 +1,19 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "fwilson@fwilson.me",
+    "longName": "Signin for Pebble",
+    "projectType": "pebblejs",
+    "resources": {
+        "media": []
+    },
+    "shortName": "Signin",
+    "uuid": "INSERT_UUID_HERE",
+    "versionCode": 1,
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": false
+    }
+}
