@@ -1,13 +1,17 @@
 from flask import Flask, jsonify, request, render_template, session, redirect
-from db import *
 import json
 import random
 import string
+from pebble_db import *
 import datetime
 
 config = json.load(open("config.json"))
 app = Flask(__name__)
 app.secret_key = config["secret-key"]
+
+@app.route('/')
+def index():
+    return render_template("index.html")
 
 @app.route('/api/new_key.json')
 def new_key():
@@ -55,10 +59,6 @@ def new_auth_request(uid, service):
 def req_status(rid):
     return jsonify(status=AuthRequest.get(AuthRequest.id == rid).approved)
 
-@app.route('/')
-def root():
-    return render_template("index.html")
-
 @app.route('/register/', methods=["GET", "POST"])
 def reg():
     if request.method == "GET":
@@ -102,4 +102,5 @@ def logout():
     del session["username"]
     return redirect('/')
 
-app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
