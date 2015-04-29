@@ -2,7 +2,7 @@
 Use your Pebble as a secure authentication device.
 
 ## TODO
-- get app.js to build by itself without cloudpebble
-- multiple devices per user
-- revocation keys
-- websockets instead of polling
+- [ ] Get [app.js](pebble/src/app.js) to build by itself without [CloudPebble](https://cloudpebble.net/)
+- [ ] Multiple devices per user
+- [ ] Revocation keys
+- [ ] WebSockets instead of polling
