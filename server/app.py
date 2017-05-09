@@ -1,13 +1,17 @@
 from flask import Flask, jsonify, request, render_template, session, redirect
-from db import *
-import json
-import random
-import string
+from pebble_db import *
+from random import choice
+from string import ascii_letters, digits
+from json import load
 import datetime
 
-config = json.load(open("config.json"))
+config = load(open("config.json"))
 app = Flask(__name__)
 app.secret_key = config["secret-key"]
+
+@app.route('/')
+def index():
+    return render_template("index.html")
 
 @app.route('/api/new_key.json')
 def new_key():
@@ -15,7 +19,7 @@ def new_key():
     Generate and return a new device/enrollment keypair. This is called by the Pebble
     app at first run.
     """
-    auth_key = "".join([random.choice(string.ascii_lowercase + string.ascii_uppercase + "0123456789") for i in range(32)])
+    auth_key = "".join([choice(ascii_letters + digits) for i in range(32)])
     enrollment_key = auth_key[:6]
     Device.create(auth_key=auth_key, enroll_key=enrollment_key)
     return jsonify(auth_key=auth_key, enrollment_token=enrollment_key)
@@ -54,10 +58,6 @@ def new_auth_request(uid, service):
 @app.route('/api/request/<int:rid>/status.json')
 def req_status(rid):
     return jsonify(status=AuthRequest.get(AuthRequest.id == rid).approved)
-
-@app.route('/')
-def root():
-    return render_template("index.html")
 
 @app.route('/register/', methods=["GET", "POST"])
 def reg():
@@ -102,4 +102,5 @@ def logout():
     del session["username"]
     return redirect('/')
 
-app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
